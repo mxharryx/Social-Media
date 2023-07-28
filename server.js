@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+const mongoose = require('mongoose');
+
 //cross origin resource sharing
 app.use(cors());
 
@@ -17,7 +19,7 @@ app.get('/api/test', (req, res) => {
 });
 
 //run express server
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
