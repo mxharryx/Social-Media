@@ -6,12 +6,16 @@ const app = express();
 
 const mongoose = require('mongoose');
 
+const usersRoutes = require('./backend/routes/users');
+
 //cross origin resource sharing
 app.use(cors());
 
 //parse incoming request bodies
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/api/users', usersRoutes);
 
 //test route
 app.get('/api/test', (req, res) => {

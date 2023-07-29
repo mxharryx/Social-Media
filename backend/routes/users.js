@@ -1,4 +1,4 @@
-const express=require(express);
+const express = require('express');
 const bcrypt = require('bcryptjs'); // For password hashing
 const jwt = require('jsonwebtoken'); // For generating JWT tokens
 const router = express.Router();
@@ -37,7 +37,8 @@ router.post('/register', async (req,res) => {
 
         res.status(201).json({ message:'User Registered Successfully'});
     } catch(error){
-        res.status(500).json({message: 'An error occurred while registering'})
+        console.error(error);
+        res.status(500).json({message: 'An error occurred while registering'});
     }
 });
 
@@ -118,16 +119,16 @@ router.put('/:id/follow',async(req,res)=>{
 
 // Route: PUT /api/users/:id/unfollow
 // Description: Unfollow a user
-router.put('/:id/follow', async (req,res)=>{
+router.put('/:id/unfollow', async (req,res)=>{
     const userId=req.params.id;
     const {userIdToUnfollow}=req.body;
 
     try{
         // Check if both users exist 
         const currentUser = await User.findById(currentUserId);
-        const userIdToUnfollow = await User.findById(userIdToUnfollow);
+        const userToUnfollow = await User.findById(userIdToUnfollow);
 
-        if(!currentUser || !userIdToUnfollow){
+        if(!currentUser || !userToUnfollow){
             return res.status(404).json({ message :'User(s) Not Found'}) ;
         }
 
