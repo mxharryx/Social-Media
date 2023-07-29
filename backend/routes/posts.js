@@ -187,4 +187,29 @@ router.get('/users/:userId', async (req, res) => {
     }
 });
 
-module.exports = router;
+// Route: GET /api/posts
+// Description: Fetch all posts with pagination
+router.get('/', async(req, res)=>{
+    const { page =1, perPage=10 } = req.query;
+    const pageNum = parseInt(page);
+    const perPageNum = parseInt(perPage);
+
+    try{
+        if(pageNum<=0 || perPageNum<=0){
+            return res.status(400).json({ message:'Invalid page number'})
+        }
+        
+        //Calculate skip value based on the current page
+        const skip = (pageNum - 1)* perPageNum;
+
+        //Fetch posts from db
+        const allPosts = await Post.find()
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(perPageNum);
+
+        res.status(200).json(allPosts);
+    }catch (error){
+        res.status(500).json({message:'An error occurred'});
+    }
+});
